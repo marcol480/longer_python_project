@@ -8,36 +8,13 @@ from scipy.fftpack import fft
 
 
 def autocorr(x):
-    """ Base commands for the regular unit test suite
-    Example with artificial data
-    ---------
-    >>> x = (np.ones(10000)).cumsum()
-    >>> autocorr(x).values[10][0]
-    0.99700000198
-    """
-    assert(len(x) > 2), 'array should have enough elements'
-
     x = x -np.mean(x)
     result = np.correlate(x, x, mode='full')
-
     size = len(result)
-    if( result.all()==0 ):
-        res= result
-        res_acorr = pd.DataFrame(res[size//2:] )
-        res_acorr.columns = ['acorr']
-    else:
-        res = result/result[size//2]
-        res_acorr = pd.DataFrame(res[size//2:] )
-        res_acorr.columns = ['acorr']
-
+    res= result/result[size//2]
+    res_acorr = pd.DataFrame(res[size//2:] )
+    res_acorr.columns = ['acorr']
     return res_acorr
-
-
-if __name__ == "__main__":
-    import sys
-    import doctest
-
-    sys.exit(doctest.testmod()[0])
 
 
 
@@ -62,7 +39,7 @@ def shoelace_formula_3(x, y, absoluteValue = True):
     else:
         return result
 
-filename_cell = 'cell-nuc-mean.dat'
+filename_cell = '../../cell-nuc-mean.dat'
 
 cell_pos = pd.DataFrame(np.loadtxt(filename_cell, usecols=(0,1)))
 cell_coords = ['x', 'y', ]
