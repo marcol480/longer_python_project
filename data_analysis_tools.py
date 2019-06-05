@@ -42,17 +42,41 @@ if __name__ == "__main__":
 
 
 def cross_corr(x, y, lag):
+    """ Base commands for the regular unit test suite
+    Example with artificial data
+    ---------
+    >>> x = (np.ones(10000)).cumsum()
+    >>> y = (np.zeros(10000)).cumsum()
+    >>> cross_corr(x, y, 19).values[10][0]
+    0.0
+    """
+    assert(len(x) > 2), 'array x should have enough elements'
+    assert(len(y) > 2), 'array y should have enough elements'
+
     cc = {}
     x = x -np.mean(x)
     y = y -np.mean(y)
+
+    norm = np.correlate(x, np.roll(y, 0))[0]
+
+    #assert np.abs(norm), 'one array has null elements'
+
     for i in range(0,lag):
 
-        cc[i] = np.correlate(x, np.roll(y, i))[0]/np.correlate(x, np.roll(y, 0))[0]
-
+        if( np.abs(norm)> 0):
+            cc[i] = np.correlate(x, np.roll(y, i))[0]/norm
+        else:
+            cc[i] = np.correlate(x, np.roll(y, i))[0]
     cross_c = pd.DataFrame( cc, index=[0]).transpose()
     cross_c.columns = ['cross_corr']
 
     return cross_c
+
+if __name__ == "__main__":
+    import sys
+    import doctest
+
+    sys.exit(doctest.testmod()[0])
 
 def shoelace_formula_3(x, y, absoluteValue = True):
 
