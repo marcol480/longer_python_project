@@ -13,4 +13,3 @@ script:
   - python data_analysis_tools.py
     # other script steps might be done before running the actual analysis
   - sonar-scanner
-
