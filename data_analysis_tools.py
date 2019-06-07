@@ -59,8 +59,6 @@ def cross_corr(x, y, lag):
 
     norm = np.correlate(x, np.roll(y, 0))[0]
 
-    #assert np.abs(norm), 'one array has null elements'
-
     for i in range(0,lag):
 
         if( np.abs(norm)> 0):
@@ -78,7 +76,7 @@ if __name__ == "__main__":
 
     sys.exit(doctest.testmod()[0])
 
-def shoelace_formula_3(x, y, absoluteValue = True):
+def shoelace_formula_3(x, y, absolutevalue = True):
 
     result = 0.5 * np.array(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))/len(x)
     if absoluteValue:
